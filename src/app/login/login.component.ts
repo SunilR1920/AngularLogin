@@ -1,16 +1,49 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import {MatButtonModule} from '@angular/material/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// import { createTheme } from '@mui/material/styles';
+
+
+
+
 
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // createTheme
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
+
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       light: '#76ff03',
+//       main: '#64dd17',
+//       dark: '#1b5e20',
+//       contrastText: '#fff',
+//     },
+//     secondary: {
+//       light: '#ff7961',
+//       main: '#f44336',
+//       dark: '#ba000d',
+//       contrastText: '#000',
+//     },
+//   },
+// });
+
+
 export class LoginComponent {
   
   email: string = '';
@@ -28,12 +61,14 @@ export class LoginComponent {
   constructor(private loginService: LoginService, private router: Router) {}
   
   login(): void {
-    console.log(this.username + " => "+ this.password )
+    
     if (this.loginService.login(this.username, this.password)) {
+      console.log("Data Pass",this.username + this.password )
       this.router.navigate(['admin']);
     } else {
       alert('Invalid username or password');
     }
+    // + " => "+ this.password
   }
 
   ngOnInit(){ }
@@ -41,14 +76,13 @@ export class LoginComponent {
   VisibilityLogin(){
     this.loginPage = true;
     this.registerPage= false;
-    console.log(this.loginPage)
-    alert("This is Work")
+    
   }
 
   VisibilityRegister(){
     this.registerPage= true;
     this.loginPage = false;
-    console.log(this.registerPage)
+    
   }
 
 }

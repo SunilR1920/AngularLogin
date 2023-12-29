@@ -1,25 +1,31 @@
 <div class="offset-4 mt-5" >
     <div class="d-flex">
-        <h2 (click)="VisibilityLogin()" class="m-2"> Login</h2>
-        <h2 (click)="VisibilityRegister()" class="m-2"> Register</h2>
+        
     </div>
     @if(loginPage){
         <div id="loginp" class="col-5 border-success rounded-3 shadow bg-light p-5">
-            <form class="col-12">
+            <h2 (click)="VisibilityLogin()" class="m-2"> Login</h2>
+            <form class="col-12 mt-4">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" formControlName="username" class="form-control"/>
+                    <input type="text" id="username" [(ngModel)]="username"  class="form-control"/>
+                    <!-- (ngModule)="username   formControlName="username"" -->
                     <br />
                     <label for="password">Password:</label>
                     <input type="password" id="password" formControlName="password" class="form-control"/>
                     <br />
-                    <button (click)="login()" >Login</button>
+                    <button mat-flat-button color="primary" class="offset-4" (click)="login()" >Login</button>
+                    <div class="d-flex">
+                        <p class="m-3">Forget Password </p>
+                        <p class="m-3" (click)="VisibilityRegister()">Register</p>
+                    </div>
                 </div>
             </form>
         </div>
     }@else {
         <div id="registerp" class="col-5 border-success rounded-3 shadow bg-light p-5">
-            <form class="col-4">
+            <h2  class="m-2"> Register</h2>
+            <form class="col-12 mt-4">
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="text" id="email" formControlName="email" class="form-control"/>
@@ -33,7 +39,7 @@
                     <label for="password">Password:</label>
                     <input type="password" id="password" formControlName="password" class="form-control"/>
                     <br />
-                    <button (click)="login()">Login</button>
+                    <button mat-flat-button color="primary" class="offset-4" (click)="VisibilityLogin()">Login</button>
                 </div>
             </form>
         </div>
