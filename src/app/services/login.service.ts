@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,9 +16,9 @@ export class LoginService {
     // this.loginService.post("http://localhost:3000/posts")
     if (username === 'admin' && password === 'password') {
       this.isLoggedIn = true;
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
   logout(): void {
     this.isLoggedIn = false;

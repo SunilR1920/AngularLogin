@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import {MatButtonModule} from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // import { createTheme } from '@mui/material/styles';
 
@@ -46,16 +46,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export class LoginComponent {
   
-  email: string = '';
   fullname: string = '';
+  email: string = '';
   username: string = '';
   password: string = '';
+
+  showPassword: boolean = false;
 
   // validUsername = 'Sunil123';
   // validPassword = 'Sunil@123';
 
   loginPage: boolean =true;
   registerPage: boolean =false;
+
+  
 
   
   constructor(private loginService: LoginService, private router: Router) {}
@@ -73,6 +77,17 @@ export class LoginComponent {
 
   ngOnInit(){ }
 
+  registerForm= new FormGroup({
+    fullname: new FormControl(''),
+    email: new FormControl(''),
+    username: new FormControl(''),
+    password: new FormControl(''),
+  })
+
+  registerData(){
+    console.log(this.registerForm.value)
+  }
+
   VisibilityLogin(){
     this.loginPage = true;
     this.registerPage= false;
@@ -83,6 +98,10 @@ export class LoginComponent {
     this.registerPage= true;
     this.loginPage = false;
     
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
 }
