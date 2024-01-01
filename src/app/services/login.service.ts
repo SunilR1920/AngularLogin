@@ -38,8 +38,10 @@ http = inject(HttpClient)
     console.log("Login Service",userData)
     return userData;
   }
-  logout(): void {
-    this.isLoggedIn = false;
+  logout(){
+    
+    localStorage.setItem('user','')
+    return true;
   }
 
   getIsLoggedIn(): boolean {

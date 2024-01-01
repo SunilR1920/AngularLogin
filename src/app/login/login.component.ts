@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import {MatButtonModule} from '@angular/material/button';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-// import { createTheme } from '@mui/material/styles';
+
 
 @Component({
   selector: 'app-login',
@@ -14,32 +14,14 @@ import { HttpClient } from '@angular/common/http';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    // createTheme
+    
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
 
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       light: '#76ff03',
-//       main: '#64dd17',
-//       dark: '#1b5e20',
-//       contrastText: '#fff',
-//     },
-//     secondary: {
-//       light: '#ff7961',
-//       main: '#f44336',
-//       dark: '#ba000d',
-//       contrastText: '#000',
-//     },
-//   },
-// });
-
-
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   
   fullname: string = '';
   email: string = '';
@@ -62,15 +44,27 @@ export class LoginComponent {
   constructor(private loginService: LoginService, private router: Router) { }
   
   login(): void {
-    const userData= this.loginService.login(this.username, this.password)
-    if (userData.isLoggedIn) {
-      console.log("Data Pass",userData)
-      const user = JSON.stringify(userData)
-      localStorage.setItem('user',user)
-      this.router.navigate(['admin']);
-    } else {
-      alert('Invalid username or password');
-    }
+    let userData= {isLoggedIn: false}
+
+    this.loginService.verifyUser().subscribe((result: any)=>{
+      console.log("Werify",result)
+      result && result.length > 0 && result.forEach((user: any) => {
+        
+        if (user && user.username === this.username && user.password === this.password) {
+          
+          userData= {...user, isLoggedIn: true};
+          console.log("user",user)
+          const userDetail = JSON.stringify(userData)
+          localStorage.setItem('user',userDetail)
+          this.router.navigate(['admin']);
+        }
+        else {
+          alert('Invalid username or password');
+        }
+      });
+    }, (error)=>{
+      alert('Invalid username or password 2');
+    })
   }
  
   ngOnInit(){ }
