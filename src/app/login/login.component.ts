@@ -3,14 +3,9 @@ import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import {MatButtonModule} from '@angular/material/button';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 // import { createTheme } from '@mui/material/styles';
-
-
-
-
-
-
 
 @Component({
   selector: 'app-login',
@@ -53,40 +48,41 @@ export class LoginComponent {
 
   showPassword: boolean = false;
 
-  // validUsername = 'Sunil123';
-  // validPassword = 'Sunil@123';
-
   loginPage: boolean =true;
   registerPage: boolean =false;
 
-  
 
-  
-  constructor(private loginService: LoginService, private router: Router) {}
+  data={
+    fullname: this.fullname,
+    email: this.email,
+    username: this.username,
+    password: this.password,
+  }
+
+  constructor(private loginService: LoginService, private router: Router) { }
   
   login(): void {
-    
-    if (this.loginService.login(this.username, this.password)) {
-      console.log("Data Pass",this.username + this.password )
+    const userData= this.loginService.login(this.username, this.password)
+    if (userData.isLoggedIn) {
+      console.log("Data Pass",userData)
+      const user = JSON.stringify(userData)
+      localStorage.setItem('user',user)
       this.router.navigate(['admin']);
     } else {
       alert('Invalid username or password');
     }
-    // + " => "+ this.password
   }
-
+ 
   ngOnInit(){ }
 
-  registerForm= new FormGroup({
-    fullname: new FormControl(''),
-    email: new FormControl(''),
-    username: new FormControl(''),
-    password: new FormControl(''),
-  })
 
-  registerData(){
-    console.log(this.registerForm.value)
+  registerUser(){
+    this.loginService.registerdata(this.data).subscribe((result:any) =>{
+      console.log(result)
+    })
   }
+
+
 
   VisibilityLogin(){
     this.loginPage = true;
